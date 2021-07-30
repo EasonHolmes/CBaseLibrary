@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <string name="app_name" >widgetlibrary</string>
+    <string name="list_empty_txt">哎哟喂~还没有数据呢</string>
+    <string name="text_loading">正在加载</string>
+    <string name="text_cancel">取消</string>
+    <string name="search_hint_text">请输入....</string>
+    <string name="frv_def_load_more_view_status_normal">松开加载更多</string>
+    <string name="frv_def_load_more_view_status_loading">加载数据中，请稍等...</string>
+    <string name="frv_def_load_more_view_status_error">加载失败，请重试</string>
+    <string name="list_tip_empty">没有数据了</string>
+</resources>

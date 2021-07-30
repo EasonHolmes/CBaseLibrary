@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+android {
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        applicationId rootProject.applicationId
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+        multiDexEnabled true
+        //网易验证码id
+        buildConfigField("String", "CAPTCHAID", "\"b603a1c8724b4c3caba9b8c60b6b5275\"")
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            shrinkResources true
+            multiDexEnabled = true
+            debuggable true
+//            signingConfig signingConfigs.config
+//            manifestPlaceholders = [JPUSH_APPKEY: '00afad7629caa5c61e461093']
+            buildConfigField("String", "GLOBAL_DOMAIN", "\"${url["release"]}\"")
+        }
+        debug {
+            ext.enableCrashlytics = false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            debuggable true
+//            signingConfig signingConfigs.config
+//            manifestPlaceholders = [JPUSH_APPKEY: '669cfa7641e8de2cc92fcfc9']
+            buildConfigField("String", "GLOBAL_DOMAIN", "\"${url["debug"]}\"")
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        // work-runtime-ktx 2.1.0 and above now requires Java 8
+        jvmTarget = "1.8"
+
+        // Enable Coroutines and Flow APIs
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+    aaptOptions {
+        cruncherEnabled false//禁用PNG图片自动压缩
+    }
+}
+
+//app下只依赖不会被复用的库
+dependencies {
+    api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+    api project(':cutilslibrary')
+//    api project(':widgetlibrary')
+    api project(':clibrarys')
+
+}

@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+    }
+    lintOptions{
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        debug {
+            consumerProguardFiles 'proguard-rules.pro'
+            minifyEnabled false
+        }
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        // Enable Coroutines and Flow APIs
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+//这是空的依赖库，做为通用依赖，混淆也在这里处理方便移植
+dependencies {
+    //banner广告轮播  https://github.com/bingoogolapple/BGABanner-Android
+    api "androidx.legacy:legacy-support-v4:1.0.0"
+    //https://github.com/youth5201314/banner
+    api "io.github.youth5201314:banner:$rootProject.youthbanner_version"
+    //相册选图拍照
+    api "io.github.lucksiege:pictureselector:v$rootProject.pictureSelectorVersion"
+    //权限 https://github.com/getActivity/XXPermissions
+    api "com.github.getActivity:XXPermissions:$rootProject.xxpermissionVersion"
+
+    //android dependencies
+    api "androidx.constraintlayout:constraintlayout:$rootProject.constraintlayout"
+    api "androidx.annotation:annotation:$rootProject.supportVersion"
+    //kotlin协程
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
+    //kotlin反射
+    api "org.jetbrains.kotlin:kotlin-reflect:$rootProject.kotlinReflectVersion"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlin_version"
+    api "androidx.viewpager2:viewpager2:$rootProject.viewPagerVersion"
+//    api "com.android.support:support-v4:$rootProject.supportv4v7Version"
+//    api "com.android.support:appcompat-v7:$rootProject.supportv4v7Version"
+    //room
+    api "androidx.room:room-runtime:$rootProject.room_version"
+    api "androidx.room:room-ktx:$rootProject.room_version"
+    kapt "androidx.room:room-compiler:$rootProject.room_version"
+//    api "androidx.activity:activity-ktx:1.2.3"
+
+    //lifecycle viewmodel livedata
+    api  "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecycle"
+    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycle"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$rootProject.lifecycle"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycle"
+}

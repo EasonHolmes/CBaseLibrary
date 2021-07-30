@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+        debug {
+            consumerProguardFiles 'proguard-rules.pro'
+            minifyEnabled false
+        }
+    }
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    api project(':refresh-layout')
+//    api project(':refresh-header')
+//    api project(':refresh-footer')
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    api "androidx.recyclerview:recyclerview:1.2.1"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlin_version"
+    api "androidx.cardview:cardview:1.0.0"
+    api "com.google.android.material:material:1.4.0"
+    api 'androidx.appcompat:appcompat:1.3.1'
+    api "com.scwang.smart:refresh-layout-kernel:$rootProject.refresh_version"
+    api "com.scwang.smart:refresh-header-material:$rootProject.refresh_version"
+    api "com.scwang.smart:refresh-footer-classics:$rootProject.refresh_version"
+
+}
+repositories {
+    mavenCentral()
+}

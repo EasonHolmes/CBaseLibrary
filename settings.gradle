@@ -1,0 +1,5 @@
+rootProject.name = "CLibrary"
+include ':app'
+include ':clibrarys'
+include ':cutilslibrary'
+include ':cwidgetlibrary'

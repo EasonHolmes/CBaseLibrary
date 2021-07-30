@@ -1,0 +1,16 @@
+/**
+ * 在主项目的根目录下创建config.gradle文件
+ * 在这里单独处理统一依赖问题
+ * 注意需要在根目录的build.gradle中进行引入
+ */
+//需要在根build.gradle加这行才可以使用
+// apply from: "config.gradle"
+ext {
+    //主项目使用url
+    url = [
+            "release"      : "https://test.haokanbaba.com/",
+//            "release"      : "https://api.haokanbaba.com/",
+            "debug"        : "https://test.haokanbaba.com/",
+            "release_debug": "https://test.haoqipei.com/"
+    ]
+}
