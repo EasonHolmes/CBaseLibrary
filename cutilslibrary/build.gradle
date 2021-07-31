@@ -3,7 +3,10 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'maven-publish'
+//    id 'com.github.dcendents.android-maven'
 }
+//apply plugin: 'com.github.dcendents.android-maven'    // 添加本行
+//group='com.github.YourGitHubUserName'    // 添加本行
 //ext {
 //    artifact = 'cutils-library'
 //    libraryName = 'cutilslibrary'
@@ -29,6 +32,14 @@ android {
 //        debug {
 //            minifyEnabled false
 //        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+        useIR = true
     }
 }
 dependencies {
@@ -64,8 +75,8 @@ afterEvaluate {
 
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'io.github.cutilslibrary'
-                artifactId = 'ethancui'
-                version = '0.0.1'
+                artifactId = 'cutils'
+                version = '0.0.3'
             }
         }
     }

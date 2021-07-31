@@ -42,19 +42,19 @@ android {
 //            buildConfigField("String", "GLOBAL_DOMAIN", "\"${url["debug"]}\"")
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 
-    kotlinOptions {
-        // work-runtime-ktx 2.1.0 and above now requires Java 8
-        jvmTarget = "1.8"
-
-        // Enable Coroutines and Flow APIs
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
-    }
+//    kotlinOptions {
+//        // work-runtime-ktx 2.1.0 and above now requires Java 8
+//        jvmTarget = "1.8"
+//
+//        // Enable Coroutines and Flow APIs
+//        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+//        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
+//    }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -66,13 +66,21 @@ android {
     aaptOptions {
         cruncherEnabled false//禁用PNG图片自动压缩
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+        useIR = true
+    }
 }
 
 //app下只依赖不会被复用的库
 dependencies {
     api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
 //    api project(':cutilslibrary')
-    implementation 'com.github.EasonHolmes:CBaseLibrary:0.0.1'
+//    implementation 'com.github.EasonHolmes:CBaseLibrary:0.0.2'
 //    api "io.github.cutilslibrary:0.0.2"
 //    api project(':widgetlibrary')
     api project(':clibrarys')
