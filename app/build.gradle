@@ -66,23 +66,23 @@ android {
     aaptOptions {
         cruncherEnabled false//禁用PNG图片自动压缩
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = '11'
-        useIR = true
-    }
+//    compileOptions {
+//        sourceCompatibility = JavaVersion.VERSION_11
+//        targetCompatibility = JavaVersion.VERSION_11
+//    }
+//    kotlinOptions {
+//        jvmTarget = '11'
+//        useIR = true
+//    }
 }
 
 //app下只依赖不会被复用的库
 dependencies {
     api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
-//    api project(':cutilslibrary')
+    api project(':cutilslibrary')
 //    implementation 'com.github.EasonHolmes:CBaseLibrary:0.0.2'
 //    api "io.github.cutilslibrary:0.0.2"
-//    api project(':widgetlibrary')
+    api project(':cwidgetlibrary')
     api project(':clibrarys')
 
 }

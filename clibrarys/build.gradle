@@ -41,14 +41,14 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = '11'
-        useIR = true
-    }
+//    compileOptions {
+//        sourceCompatibility = JavaVersion.VERSION_11
+//        targetCompatibility = JavaVersion.VERSION_11
+//    }
+//    kotlinOptions {
+//        jvmTarget = '11'
+//        useIR = true
+//    }
 }
 //这是空的依赖库，做为通用依赖，混淆也在这里处理方便移植
 dependencies {
