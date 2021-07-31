@@ -61,7 +61,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'io.github.cwidgetlibrary'
                 artifactId = 'cwidget'
-                version = '0.0.4'
+                version = '0.0.5'
             }
         }
     }
