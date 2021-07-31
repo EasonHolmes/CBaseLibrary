@@ -17,8 +17,6 @@ android {
         versionCode rootProject.versionCode
         versionName rootProject.versionName
         multiDexEnabled true
-        //网易验证码id
-        buildConfigField("String", "CAPTCHAID", "\"b603a1c8724b4c3caba9b8c60b6b5275\"")
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -34,20 +32,14 @@ android {
             zipAlignEnabled true
             shrinkResources true
             multiDexEnabled = true
-            debuggable true
-//            signingConfig signingConfigs.config
-//            manifestPlaceholders = [JPUSH_APPKEY: '00afad7629caa5c61e461093']
-            buildConfigField("String", "GLOBAL_DOMAIN", "\"${url["release"]}\"")
+//            buildConfigField("String", "GLOBAL_DOMAIN", "\"${url["release"]}\"")
         }
         debug {
             ext.enableCrashlytics = false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled false
-            debuggable true
-//            signingConfig signingConfigs.config
-//            manifestPlaceholders = [JPUSH_APPKEY: '669cfa7641e8de2cc92fcfc9']
-            buildConfigField("String", "GLOBAL_DOMAIN", "\"${url["debug"]}\"")
+//            buildConfigField("String", "GLOBAL_DOMAIN", "\"${url["debug"]}\"")
         }
     }
     compileOptions {
@@ -79,7 +71,9 @@ android {
 //app下只依赖不会被复用的库
 dependencies {
     api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
-    api project(':cutilslibrary')
+//    api project(':cutilslibrary')
+    implementation 'com.github.EasonHolmes:CBaseLibrary:0.0.1'
+//    api "io.github.cutilslibrary:0.0.2"
 //    api project(':widgetlibrary')
     api project(':clibrarys')
 
