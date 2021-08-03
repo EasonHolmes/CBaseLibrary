@@ -86,6 +86,15 @@ dependencies {
     api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$rootProject.lifecycle"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycle"
 }
+//将源码打包  为了保证引入的aar  包可以查看源码
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+//包含文档和源码的aar
+artifacts {
+    archives androidSourcesJar
+}
 afterEvaluate {
     publishing {
         publications {
@@ -97,7 +106,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'io.github.clibrarys'
                 artifactId = 'clibrarys'
-                version = '0.0.7'
+                version = '0.0.8'
             }
         }
     }
