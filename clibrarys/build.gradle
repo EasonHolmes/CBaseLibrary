@@ -92,12 +92,12 @@ afterEvaluate {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
                 // Applies the component for the release build variant..
-//                from components.release
+                from components.release
 
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'io.github.clibrarys'
                 artifactId = 'clibrarys'
-                version = '0.0.6'
+                version = '0.0.7'
             }
         }
     }
