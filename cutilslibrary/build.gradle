@@ -3,16 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'maven-publish'
-//    id 'com.github.dcendents.android-maven'
 }
-//apply plugin: 'com.github.dcendents.android-maven'    // 添加本行
-//group='com.github.YourGitHubUserName'    // 添加本行
-//ext {
-//    artifact = 'cutils-library'
-//    libraryName = 'cutilslibrary'
-//    libraryDescription = 'utils'
-//    libraryVersion = '0.0.1'
-//}
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -29,18 +20,10 @@ android {
             minifyEnabled false
             consumerProguardFiles 'proguard-rules.pro'
         }
-//        debug {
-//            minifyEnabled false
-//        }
     }
-//    compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_11
-//        targetCompatibility = JavaVersion.VERSION_11
-//    }
-//    kotlinOptions {
-//        jvmTarget = '11'
-//        useIR = true
-//    }
+    lintOptions {
+        abortOnError false
+    }
 }
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
@@ -65,21 +48,49 @@ dependencies {
 //    implementation 'com.github.User:Repo:Tag'
 //    implementation 'com.github.dk19121991:EmailValidator:1.5'
 }
+//task sourcesJar(type: Jar) {
+//    if (project.hasProperty("kotlin")) {
+//        from android.sourceSets.main.java.getSrcDirs()
+//    } else if (project.hasProperty("android")) {
+//        from android.sourceSets.main.java.sourceFiles
+//    } else {
+//        println project
+//        from sourceSets.main.allSource
+//    }
+//    classifier = 'sources'
+//}
+// 打包源码jar
 task sourcesJar(type: Jar) {
-    if (project.hasProperty("kotlin")) {
-        from android.sourceSets.main.java.getSrcDirs()
-    } else if (project.hasProperty("android")) {
-        from android.sourceSets.main.java.sourceFiles
-    } else {
-        println project
-        from sourceSets.main.allSource
-    }
+    from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
-//包含文档和源码的aar
-//artifacts {
-//    archives androidSourcesJar
-//}
+//编译groovy代码时采用 UTF-8
+tasks.withType(GroovyCompile) {
+    groovyOptions.encoding = "MacRoman"
+}
+
+//编译JAVA文件时采用UTF-8
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// 打包文档jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
 
 afterEvaluate {
     publishing {
