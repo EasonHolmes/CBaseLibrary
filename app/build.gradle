@@ -79,10 +79,14 @@ android {
 //app下只依赖不会被复用的库
 dependencies {
     api fileTree(include: ['*.jar','*.aar'], dir: 'libs')
-    api project(':cutilslibrary')
-//    implementation 'com.github.EasonHolmes:CBaseLibrary:0.0.2'
+//    api project(':cutilslibrary')
+//    api 'com.github.EasonHolmes.CBaseLibrary:clibrarys:0.0.6'
+
+    api 'com.github.EasonHolmes.CBaseLibrary:cwidget:0.1.0'
+    api 'com.github.EasonHolmes.CBaseLibrary:cutils:0.1.0'
+    api 'com.github.EasonHolmes.CBaseLibrary:clibrarys:0.1.0'
 //    api "io.github.cutilslibrary:0.0.2"
-    api project(':cwidgetlibrary')
-    api project(':clibrarys')
+//    api project(':cwidgetlibrary')
+//    api project(':clibrarys')
 
 }
