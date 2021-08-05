@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
-import com.utils.library.utils.ActivityHelper
 import com.utils.library.utils.errordialogMessageByServerErrorStatusCode
 import com.utils.library.utils.showSimpleDialogMessage
 import com.widget.library.R
@@ -39,9 +38,6 @@ abstract class AbstractBaseActivity<B : ViewBinding, T : BaseContract.BasePresen
 
     //simple_loading_dialog的show、diss在ActivityFragmentKtx.kt扩展类中，减少activityhelper代码
     var simple_loading_dialog: SimpleProgressDialog? = null
-
-    //一个界面会有一个mActivityHelper
-    val mActivityHelper: ActivityHelper by lazy { ActivityHelper(this) }
 
     //用来标示是下拉刷新还是上拉加载 true为下拉刷新
     protected var isRefresh = true
