@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.widget.library.R
 import io.reactivex.rxjava3.disposables.Disposable
@@ -22,7 +23,7 @@ import io.reactivex.rxjava3.disposables.Disposable
  * 生命周期顺序请注意 1setUserVisibleHint 2onCreateView 3 onCreateViewed
  * 为防止 Glide会出现You cannot start a load for a destroyed activity页面关闭recyclerview不再滑动 使用Lifecycle写在DDRecyclerviewLyoaut中在onStop生命周期
  */
-abstract class AbstractBaseFragment<B : ViewBinding, T : BaseContract.BasePresenter, V : AbstractModel> :
+abstract class AbstractBaseFragment<VB : ViewBinding,  VM : AbstractModel> :
     Fragment(),
     BaseContract.BaseView, View.OnClickListener {
 
@@ -34,13 +35,13 @@ abstract class AbstractBaseFragment<B : ViewBinding, T : BaseContract.BasePresen
     private var mToolbarLeftIcon: ImageView? = null
     private var mToolbarRightIcon: ImageView? = null
     private var mToolbarTitle: TextView? = null
-    var mActivity: AbstractBaseActivity<*, *, *>? = null
+    var mActivity: AbstractBaseActivity<*,*>? = null
     protected var mContext: Context? = null
     protected var disposable: Disposable? = null
-    protected lateinit var presenter: T//在oncreate中初始化P在Ondestory中释放V
-    var _binding: B? = null
+//    protected lateinit var presenter: T//在oncreate中初始化P在Ondestory中释放V
+    var _binding: VB? = null
     protected val binding get() = _binding!!
-    lateinit var viewmodel: V
+    protected val viewmodel: VM by lazy { ViewModelProvider(this)[getViewModel()] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,14 +56,11 @@ abstract class AbstractBaseFragment<B : ViewBinding, T : BaseContract.BasePresen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mContext = view.context
-        mActivity = activity as AbstractBaseActivity<*, *, *>
-        presenter = initPresenter()
-        viewmodel = getViewModel()
-        lifecycle.addObserver(presenter as AbstractBasePresenter<*, *>)
+        mActivity = activity as AbstractBaseActivity<*, *>
         onFragmentViewCreated(view, savedInstanceState)
     }
 
-    protected abstract fun getBinding(inflater: LayoutInflater, viewGroup: ViewGroup?): B
+    protected abstract fun getBinding(inflater: LayoutInflater, viewGroup: ViewGroup?): VB
 
     /**
      *
@@ -72,9 +70,9 @@ abstract class AbstractBaseFragment<B : ViewBinding, T : BaseContract.BasePresen
     /**
      * 初始化Presenter
      */
-    protected abstract fun initPresenter(): T
+//    protected abstract fun initPresenter(): T
 
-    protected abstract fun getViewModel(): V
+    protected abstract fun getViewModel(): Class<VM>
 
     /**
      * disposable

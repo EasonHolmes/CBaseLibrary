@@ -6,9 +6,10 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.utils.library.utils.errordialogMessageByServerErrorStatusCode
 import com.utils.library.utils.showSimpleDialogMessage
@@ -25,9 +26,9 @@ import retrofit2.HttpException
  *
  *
  */
-abstract class AbstractBaseActivity<B : ViewBinding, T : BaseContract.BasePresenter,V: AbstractModel> :
-    AbstractBaseSwipeActivity(),
-    View.OnClickListener, BaseContract.BaseView, OnCRefreshListener, onCLoadMoreListener{
+abstract class AbstractBaseActivity<VB : ViewBinding, VM : AbstractModel> :
+    AppCompatActivity(),
+    View.OnClickListener, BaseContract.BaseView, OnCRefreshListener, onCLoadMoreListener {
     /**
      * 传入参数, String 类型， startActivity 启动带入下一个界面的父的启动类的名称
      */
@@ -48,37 +49,29 @@ abstract class AbstractBaseActivity<B : ViewBinding, T : BaseContract.BasePresen
     private val mToolbarRightIcon: ImageView by lazy(LazyThreadSafetyMode.NONE) { findViewById(R.id.toolbar_right_img) }
     private val mToolbarTitle: TextView by lazy(LazyThreadSafetyMode.NONE) { findViewById(R.id.toolbar_title_txt) }
     protected var disposable: Disposable? = null
-    lateinit var presenter: T//在oncreate中初始化P在Ondestory中释放V
-    lateinit var viewmodel :V//viewmodel oncreate中初始化
+    val mViewmodel: VM by lazy { ViewModelProvider(this)[getViewModel()] }//viewmodel oncreate中初始化
 
     //    lateinit var binding: B//在onCreate中初始化
-    lateinit var _binding: B
-    protected val binding get() = _binding
+    val binding: VB by lazy { setBindinglayout() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStatuBarTheme()
-        _binding = setBindinglayout()
-        setContentView(_binding.root)
-        presenter = initPresenter()
-        viewmodel = getViewModel()
-
-        lifecycle.addObserver(presenter as AbstractBasePresenter<*, *>)
-
+        setContentView(binding.root)
         onCreated(savedInstanceState)
     }
 
     /***绑定viewbinding */
-    protected abstract fun setBindinglayout(): B
+    protected abstract fun setBindinglayout(): VB
 
     /***初始化成功后 */
     protected abstract fun onCreated(savedInstanceState: Bundle?)
 
-    /***这里是适配为不同的View 装载不同Presenter */
-    protected abstract fun initPresenter(): T
+//    /***这里是适配为不同的View 装载不同Presenter */
+//    protected abstract fun initPresenter(): T
 
     /***这里是适配为不同的View 装载不同Viewmodel */
-    protected abstract fun getViewModel():V
+    protected abstract fun getViewModel(): Class<VM>
 
     /**
      * 设置statubar样式 如果要设置activity透明这个需要理新实现否则就不会透明了
@@ -291,7 +284,7 @@ abstract class AbstractBaseActivity<B : ViewBinding, T : BaseContract.BasePresen
 //            val errorContent = jsonObject.optString("message")
 //            if (errorContent.isNotEmptyStr())
 //                mActivityHelper.ErrordialogMessageByMineOrServerErrorStatusCode(errorContent)
-        } else  if (error != null && error is HttpException && error.response() != null) {
+        } else if (error != null && error is HttpException && error.response() != null) {
             errordialogMessageByServerErrorStatusCode(error)
         } else {
             val errorStr = error?.message
@@ -304,11 +297,12 @@ abstract class AbstractBaseActivity<B : ViewBinding, T : BaseContract.BasePresen
 //                    mActivityHelper.dialogMessage("连接超时请重试SocketTimeoutException\n" + error)
                 } else if (errorStr.contains("no address") ||
                     errorStr.contains("Failed to connect to") ||
-                    errorStr.contains("No address")||
-                        errorStr.contains("Unable to resolve host")) {
-                    showSimpleDialogMessage("网络连接失败:请检查网络",null)
-                }else {
-                    showSimpleDialogMessage("数据解析错误"+error.message,null)
+                    errorStr.contains("No address") ||
+                    errorStr.contains("Unable to resolve host")
+                ) {
+                    showSimpleDialogMessage("网络连接失败:请检查网络", null)
+                } else {
+                    showSimpleDialogMessage("数据解析错误" + error.message, null)
                 }
             }
         }

@@ -32,28 +32,28 @@ import java.lang.ref.WeakReference
 /**
  * 如果有多个P2使用同一个P1的情况在P1不要确定泛型在P2中的构造方法中强转
  */
-abstract class AbstractBasePresenter<V : BaseContract.BaseView, M : AbstractModel> (mView: V) :
+abstract class AbstractBasePresenter() :
     LifecycleObserver, BaseContract.BasePresenter {
     /**用于保存和清空Disposable*/
     private var disposables: CompositeDisposable? = null
     /**弱引用队列，用于清除引用V的弱引用对象 http://blog.csdn.net/u012332679/article/details/57489179*/
     //private var referenceQueue = ReferenceQueue<V>()
     /**使用弱引用先包装一层*/
-    private val weakReferenceView = WeakReference<V>(mView)
-    private var mModel: M? = null
+//    private val weakReferenceView = WeakReference<V>(mView)
+//    private var mModel: M? = null
+//
+//    val mViewModel: M
+//        get() {
+//            if (mModel == null) {
+//                mModel = initModel()
+//            }
+//            return mModel!!
+//        }
 
-    val mViewModel: M
-        get() {
-            if (mModel == null) {
-                mModel = initModel()
-            }
-            return mModel!!
-        }
-
-    protected val mView: V?
-        get() {
-            return weakReferenceView.get()
-        }
+//    protected val mView: V?
+//        get() {
+//            return weakReferenceView.get()
+//        }
 
     protected val compositeDisposable: CompositeDisposable
         get() {
@@ -69,8 +69,8 @@ abstract class AbstractBasePresenter<V : BaseContract.BaseView, M : AbstractMode
             disposables!!.clear()
             disposables = null
         }
-        weakReferenceView.clear()
-        mModel = null
+//        weakReferenceView.clear()
+//        mModel = null
 
 //        referenceQueue.poll()
 //        LogUtils.e(AbstractBasePresenter::class.java, "p:out")
@@ -93,6 +93,6 @@ abstract class AbstractBasePresenter<V : BaseContract.BaseView, M : AbstractMode
 //        }
 //    }
 
-    abstract fun initModel(): M
+//    abstract fun initModel(): M
 
 }

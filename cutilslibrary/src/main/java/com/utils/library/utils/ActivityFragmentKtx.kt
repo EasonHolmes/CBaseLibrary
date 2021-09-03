@@ -27,21 +27,21 @@ import retrofit2.HttpException
  * 使用扩展函数：ActivityFragment类的扩展工具,尽可可让activityHelper减少代码
  * Fragment.ktxGetColor(){} 给Fragment添加ktxGetColor方法，用法：在Fragment中直接使用ktxGetColor()
  */
-fun AbstractBaseActivity<*, *,*>.snackBar(content: String) {
-    Snackbar.make(this._binding.root, content, Snackbar.LENGTH_SHORT).show()
+fun AbstractBaseActivity<*,*>.snackBar(content: String) {
+    Snackbar.make(this.binding.root, content, Snackbar.LENGTH_SHORT).show()
 }
-fun AbstractBaseActivity<*, *,*>.toastContent( content: String) {
-    Toast.makeText(this._binding.root.context, content, Toast.LENGTH_SHORT).show()
+fun AbstractBaseActivity<*,*>.toastContent( content: String) {
+    Toast.makeText(this.binding.root.context, content, Toast.LENGTH_SHORT).show()
 }
 
-fun AbstractBaseFragment<*, *,*>.toastContent(content: String) {
+fun AbstractBaseFragment<*,*>.toastContent(content: String) {
     Toast.makeText(this._binding?.root?.context, content, Toast.LENGTH_SHORT).show()
 }
-fun AbstractBaseActivity<*, *,*>.ktxGetDrawable(drawableInt: Int): Drawable? {
+fun AbstractBaseActivity<*,*>.ktxGetDrawable(drawableInt: Int): Drawable? {
     return ResourcesCompat.getDrawable(resources, drawableInt, null)
 }
 
-fun AbstractBaseActivity<*, *,*>.showProgressLoadDialog(msg: String = "") {
+fun AbstractBaseActivity<*,*>.showProgressLoadDialog(msg: String = "") {
     this.mHandler.post {
         if (simple_loading_dialog != null) {
             simple_loading_dialog?.dismiss()
@@ -61,7 +61,7 @@ fun AbstractBaseActivity<*, *,*>.showProgressLoadDialog(msg: String = "") {
         }
     }
 }
-fun AbstractBaseActivity<*, *, *>.dismissSimpleLoadDialog() {
+fun AbstractBaseActivity<*,*>.dismissSimpleLoadDialog() {
     mHandler.post {
         if (simple_loading_dialog != null && simple_loading_dialog!!.isShowing) {
             simple_loading_dialog!!.dismiss()
@@ -69,7 +69,7 @@ fun AbstractBaseActivity<*, *, *>.dismissSimpleLoadDialog() {
         simple_loading_dialog = null
     }
 }
-fun AbstractBaseActivity<*, *, *>.showSimpleDialogMessage(message: String?, yesClicklistener: DialogInterface.OnClickListener?) {
+fun AbstractBaseActivity<*,*>.showSimpleDialogMessage(message: String?, yesClicklistener: DialogInterface.OnClickListener?) {
     dismissSimpleLoadDialog()
     if (message.isEmptyOrNull()) {
         return
@@ -89,19 +89,19 @@ fun AbstractBaseActivity<*, *, *>.showSimpleDialogMessage(message: String?, yesC
         }
     }
 }
-fun AbstractBaseFragment<*,*,*>.showProgressLoadDialog(){
+fun AbstractBaseFragment<*,*>.showProgressLoadDialog(){
     mActivity?.showProgressLoadDialog()
 }
 
-fun AbstractBaseFragment<*,*,*>.dismissSimpleLoadDialog(){
+fun AbstractBaseFragment<*,*>.dismissSimpleLoadDialog(){
     mActivity?.dismissSimpleLoadDialog()
 }
 
-fun AbstractBaseFragment<*,*,*>.showSimpleDialogMessage(message: String?, yesClicklistener: DialogInterface.OnClickListener?){
+fun AbstractBaseFragment<*,*>.showSimpleDialogMessage(message: String?, yesClicklistener: DialogInterface.OnClickListener?){
     mActivity?.showSimpleDialogMessage(message,yesClicklistener)
 }
 
-//fun AbstractBaseActivity<*, *, *>.startActivityLollipop(intent: Intent, vararg sharedElements: Pair<View, String>) {
+//fun AbstractBaseActivity<*,*>.startActivityLollipop(intent: Intent, vararg sharedElements: Pair<View, String>) {
 //    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //        intent.putExtra(FinalStrings.EXTRA_PARENT_ACTIVITY_CLASS_NAME, this.javaClass.name)
 //        val optionsCompat =
@@ -113,7 +113,7 @@ fun AbstractBaseFragment<*,*,*>.showSimpleDialogMessage(message: String?, yesCli
 //    }
 //}
 
-//fun AbstractBaseFragment<*, *, *>.startActivityLollipop(intent: Intent, vararg sharedElements: Pair<View, String>) {
+//fun AbstractBaseFragment<*,*>.startActivityLollipop(intent: Intent, vararg sharedElements: Pair<View, String>) {
 //    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //        intent.putExtra(this.EXTRA_PARENT_FRAGMENT_CLASS_NAME, this.javaClass.name)
 //        val optionsCompat =
@@ -127,7 +127,7 @@ fun AbstractBaseFragment<*,*,*>.showSimpleDialogMessage(message: String?, yesCli
 
 
 @SuppressLint("RtlHardcoded")
-fun AbstractBaseActivity<*, *, *>.animaActivityLollipopSlide() {
+fun AbstractBaseActivity<*,*>.animaActivityLollipopSlide() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         val slide = Slide(Gravity.RIGHT)
         window.enterTransition = slide
@@ -135,7 +135,7 @@ fun AbstractBaseActivity<*, *, *>.animaActivityLollipopSlide() {
     }
 }
 
-fun AbstractBaseActivity<*, *, *>.animaActivityLollipopExplode() {
+fun AbstractBaseActivity<*,*>.animaActivityLollipopExplode() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         val explode = Explode()
         window.enterTransition = explode
@@ -143,7 +143,7 @@ fun AbstractBaseActivity<*, *, *>.animaActivityLollipopExplode() {
     }
 }
 
-fun AbstractBaseActivity<*, *, *>.errordialogMessageByServerErrorStatusCode(error: HttpException?) {
+fun AbstractBaseActivity<*,*>.errordialogMessageByServerErrorStatusCode(error: HttpException?) {
     this.dismissSimpleLoadDialog()
     if (error?.response() != null && error.response()!!.errorBody() != null) {
         val errorJson = error.response()!!.errorBody()!!.string()
@@ -160,7 +160,7 @@ fun AbstractBaseActivity<*, *, *>.errordialogMessageByServerErrorStatusCode(erro
 /**
  *
  */
-private fun AbstractBaseActivity<*, *, *>.converErrorjson(errorJson: String?) {
+private fun AbstractBaseActivity<*,*>.converErrorjson(errorJson: String?) {
     val jsonObject = JSONObject(errorJson)
     val errorCode = jsonObject.optInt("code", -1)
     when (errorCode) {
@@ -193,7 +193,7 @@ private fun AbstractBaseActivity<*, *, *>.converErrorjson(errorJson: String?) {
         }
     }
 }
-fun AbstractBaseActivity<*, *, *>.blockServerResult(result:HttpData<*>,block: () -> Unit){
+fun AbstractBaseActivity<*,*>.blockServerResult(result:HttpData<*>,block: () -> Unit){
     dismissSimpleLoadDialog()
     if (result.code == 0){
         block()
@@ -201,7 +201,7 @@ fun AbstractBaseActivity<*, *, *>.blockServerResult(result:HttpData<*>,block: ()
         converErrorjson(GsonSingle.getInstance().toJson(result))
     }
 }
-fun AbstractBaseFragment<*, *, *>.blockServerResult(result:HttpData<*>,block: () -> Unit){
+fun AbstractBaseFragment<*,*>.blockServerResult(result:HttpData<*>,block: () -> Unit){
     dismissSimpleLoadDialog()
     if (result.code == 0){
         block()
