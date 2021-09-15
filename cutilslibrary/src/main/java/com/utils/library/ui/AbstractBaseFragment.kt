@@ -12,8 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.utils.library.utils.refreshError
+import com.utils.library.viewmodel.AbstractModel
 import com.widget.library.R
 import io.reactivex.rxjava3.disposables.Disposable
 
@@ -35,13 +38,13 @@ abstract class AbstractBaseFragment<VB : ViewBinding,  VM : AbstractModel> :
     private var mToolbarLeftIcon: ImageView? = null
     private var mToolbarRightIcon: ImageView? = null
     private var mToolbarTitle: TextView? = null
-    var mActivity: AbstractBaseActivity<*,*>? = null
+    var mActivity: AbstractBaseActivity<*, *>? = null
     protected var mContext: Context? = null
     protected var disposable: Disposable? = null
 //    protected lateinit var presenter: T//在oncreate中初始化P在Ondestory中释放V
     var _binding: VB? = null
     protected val binding get() = _binding!!
-    protected val viewmodel: VM by lazy { ViewModelProvider(this)[getViewModel()] }
+    protected val mViewmodel: VM by lazy { ViewModelProvider(this)[getViewModel()] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,20 +60,21 @@ abstract class AbstractBaseFragment<VB : ViewBinding,  VM : AbstractModel> :
         super.onViewCreated(view, savedInstanceState)
         mContext = view.context
         mActivity = activity as AbstractBaseActivity<*, *>
+        observeViewmodelEvent()
         onFragmentViewCreated(view, savedInstanceState)
+    }
+    private fun observeViewmodelEvent() {
+        mViewmodel.apiExceptionEvent.observe(this, Observer {
+            this.refreshError(it)
+        })
+        mViewmodel.errorCodeOptionEvent.observe(this, Observer {
+            //某些code需要处理的内容
+        })
     }
 
     protected abstract fun getBinding(inflater: LayoutInflater, viewGroup: ViewGroup?): VB
 
-    /**
-     *
-     */
     protected abstract fun onFragmentViewCreated(view: View?, savedInstanceState: Bundle?)
-
-    /**
-     * 初始化Presenter
-     */
-//    protected abstract fun initPresenter(): T
 
     protected abstract fun getViewModel(): Class<VM>
 
@@ -126,7 +130,7 @@ abstract class AbstractBaseFragment<VB : ViewBinding,  VM : AbstractModel> :
 
      * @param error
      */
-    override fun refreshError(error: Throwable?) {
+    fun refreshError(error: Throwable?) {
         mActivity?.refreshError(error)
     }
 

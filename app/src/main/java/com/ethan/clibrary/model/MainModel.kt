@@ -1,7 +1,7 @@
-package com.ethan.clibrary
+package com.ethan.clibrary.model
 
 import android.util.Log
-import com.utils.library.ui.AbstractModel
+import com.utils.library.viewmodel.AbstractModel
 
 class MainModel : AbstractModel() {
 

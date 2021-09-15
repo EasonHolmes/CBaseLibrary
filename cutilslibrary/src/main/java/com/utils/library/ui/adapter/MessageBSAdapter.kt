@@ -2,7 +2,6 @@ package com.utils.library.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.widget.library.R
 import com.widget.library.databinding.ItemMessageBottomsheetBinding
 import com.widget.library.refresh.recyclerview.DDRecyclerViewLayout
 

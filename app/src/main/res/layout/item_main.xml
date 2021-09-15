@@ -5,20 +5,14 @@
     android:layout_height="wrap_content">
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-       android:background="@color/black"
-        >
-
         <TextView
             android:id="@+id/item_txt"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:text="22222"
             android:gravity="center"
+            android:textSize="25sp"
             android:layout_gravity="center"
             android:layout_height="wrap_content"/>
 
-    </FrameLayout>
 </LinearLayout>

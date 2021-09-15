@@ -31,6 +31,8 @@ dependencies {
     //kotlin 反射
     api "org.jetbrains.kotlin:kotlin-reflect:$rootProject.kotlinReflectVersion"
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlin_version"
+    //kotlin协程
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.kotlin_coroutines"
 
     api "jp.wasabeef:glide-transformations:4.3.0"
     api "com.github.bumptech.glide:glide:$rootProject.glideVersion"
@@ -44,7 +46,17 @@ dependencies {
     //retrofit
     api "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    //目前只用于retrofit下载工具类中DownloadHelper
     api "com.squareup.retrofit2:adapter-rxjava3:$rootProject.retrofitVersion"
+    api "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$rootProject.retrofit_flow_calladapter"
+
+    //lifecycle viewmodel livedata
+    api  "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecycle"
+    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycle"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$rootProject.lifecycle"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycle"
+
 //    implementation 'com.github.User:Repo:Tag'
 //    implementation 'com.github.dk19121991:EmailValidator:1.5'
 }

@@ -1,13 +1,12 @@
 package com.utils.library.utils.livedata
 
-import android.util.Log
+import java.util.concurrent.atomic.AtomicBoolean
+import java.lang.ref.WeakReference
+import java.util.ArrayList
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import java.lang.ref.WeakReference
-import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * A lifecycle-aware observable that sends only new updates after subscription, used for events like
@@ -23,21 +22,19 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class SingleLivedata<T> : MutableLiveData<T?>() {
     private val mPending = AtomicBoolean(false)
-    private val ownerClassNames = WeakReference<MutableList<String>>(mutableListOf())
-
-
+    private val ownerClassNames = WeakReference(ArrayList<String>())
     @MainThread
     override fun observe(owner: LifecycleOwner, observer: Observer<in T?>) {
         val className = owner.javaClass.name
-        ownerClassNames.get()?.let {
+        if (ownerClassNames.get() != null) {
             if (ownerClassNames.get()!!.contains(className)) {
                 return
             } else {
                 ownerClassNames.get()!!.add(className)
             }
         }
-//        if (hasActiveObservers()) {
-//            Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")
+//        if (hasActiveObservers()){
+//
 //        }
         super.observe(owner, { t ->
             if (mPending.compareAndSet(true, false)) {
@@ -47,20 +44,20 @@ class SingleLivedata<T> : MutableLiveData<T?>() {
     }
 
     @MainThread
-    override fun setValue(t: T?) {
+    override fun setValue(value: T?) {
         mPending.set(true)
-        super.setValue(t)
+        super.setValue(value)
     }
 
     /**
      * Used for cases where T is Void, to make calls cleaner.
      */
     @MainThread
-    fun call() {
+    private fun call() {
         value = null
     }
 
-    override fun onInactive() {
+    public override fun onInactive() {
         if (!hasActiveObservers()) ownerClassNames.clear()
     }
 }

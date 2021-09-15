@@ -9,17 +9,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import androidx.viewbinding.ViewBinding
 import com.utils.library.utils.errordialogMessageByServerErrorStatusCode
-import com.utils.library.utils.showSimpleDialogMessage
+import com.utils.library.utils.livedata.SingleLivedata
+import com.utils.library.utils.refreshError
+import com.utils.library.viewmodel.AbstractModel
 import com.widget.library.R
 import com.widget.library.dialog_pop.SimpleProgressDialog
 import com.widget.library.refresh.listener.OnCRefreshListener
 import com.widget.library.refresh.listener.onCLoadMoreListener
 import com.widget.library.utils.StatusBarUtil
 import io.reactivex.rxjava3.disposables.Disposable
-import retrofit2.HttpException
 
 /**
  * 为防止 Glide会出现You cannot start a load for a destroyed activity页面关闭recyclerview不再滑动 使用Lifecycle写在DDRecyclerviewLyoaut中在onStop生命周期
@@ -28,7 +29,8 @@ import retrofit2.HttpException
  */
 abstract class AbstractBaseActivity<VB : ViewBinding, VM : AbstractModel> :
     AppCompatActivity(),
-    View.OnClickListener, BaseContract.BaseView, OnCRefreshListener, onCLoadMoreListener {
+    View.OnClickListener, BaseContract.BaseView,
+    OnCRefreshListener, onCLoadMoreListener {
     /**
      * 传入参数, String 类型， startActivity 启动带入下一个界面的父的启动类的名称
      */
@@ -58,7 +60,17 @@ abstract class AbstractBaseActivity<VB : ViewBinding, VM : AbstractModel> :
         super.onCreate(savedInstanceState)
         setStatuBarTheme()
         setContentView(binding.root)
+        observeViewmodelEvent()
         onCreated(savedInstanceState)
+    }
+
+    private fun observeViewmodelEvent() {
+        mViewmodel.apiExceptionEvent.observe(this, Observer {
+            this.refreshError(it)
+        })
+        mViewmodel.errorCodeOptionEvent.observe(this, Observer {
+            //某些code需要处理的内容
+        })
     }
 
     /***绑定viewbinding */
@@ -66,9 +78,6 @@ abstract class AbstractBaseActivity<VB : ViewBinding, VM : AbstractModel> :
 
     /***初始化成功后 */
     protected abstract fun onCreated(savedInstanceState: Bundle?)
-
-//    /***这里是适配为不同的View 装载不同Presenter */
-//    protected abstract fun initPresenter(): T
 
     /***这里是适配为不同的View 装载不同Viewmodel */
     protected abstract fun getViewModel(): Class<VM>
@@ -227,13 +236,6 @@ abstract class AbstractBaseActivity<VB : ViewBinding, VM : AbstractModel> :
         }
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == android.R.id.home) {
-//            onBackPressed()
-//            return true
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
@@ -268,45 +270,6 @@ abstract class AbstractBaseActivity<VB : ViewBinding, VM : AbstractModel> :
         super.startActivity(intent)
     }
 
-    /**
-     * 访问失败http状态码非200情况
-     *
-     * @param error
-     */
-    override fun refreshError(error: Throwable?) {
-//        if (BuildConfig.DEBUG && error?.message != null) {
-//            toastContent(binding, error.message!!)
-//        }
-//        dismissSimpleLoadDialog()
-
-        if (error is retrofit2.HttpException) {
-//            val jsonObject = JSONObject(error.response().errorBody()?.string())
-//            val errorContent = jsonObject.optString("message")
-//            if (errorContent.isNotEmptyStr())
-//                mActivityHelper.ErrordialogMessageByMineOrServerErrorStatusCode(errorContent)
-        } else if (error != null && error is HttpException && error.response() != null) {
-            errordialogMessageByServerErrorStatusCode(error)
-        } else {
-            val errorStr = error?.message
-            if (errorStr != null && errorStr.isNotEmpty()) {
-                if (errorStr.contains("404")) {
-//                    mActivityHelper.dialogMessage("未找到请求地址404\n" + error)
-                } else if (errorStr.contains("500")) {
-//                    mActivityHelper.dialogMessage("请求地址访问错误500\n" + error)
-                } else if (errorStr.contains("SocketTimeoutException")) {
-//                    mActivityHelper.dialogMessage("连接超时请重试SocketTimeoutException\n" + error)
-                } else if (errorStr.contains("no address") ||
-                    errorStr.contains("Failed to connect to") ||
-                    errorStr.contains("No address") ||
-                    errorStr.contains("Unable to resolve host")
-                ) {
-                    showSimpleDialogMessage("网络连接失败:请检查网络", null)
-                } else {
-                    showSimpleDialogMessage("数据解析错误" + error.message, null)
-                }
-            }
-        }
-    }
 
     override fun onClick(v: View) {
 
