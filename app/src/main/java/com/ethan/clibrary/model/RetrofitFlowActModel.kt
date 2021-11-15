@@ -28,4 +28,10 @@ class RetrofitFlowActModel : AbstractModel() {
             }
         }
     }
+
+    override fun onCleared() {
+        CCLogUtils.e(RetrofitFlowActModel::class.java,"onCleared")
+        super.onCleared()
+
+    }
 }

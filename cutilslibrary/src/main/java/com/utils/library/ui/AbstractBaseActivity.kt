@@ -174,31 +174,6 @@ abstract class AbstractBaseActivity<VB : ViewBinding, VM : AbstractModel> :
             )
         }
     }
-//
-//    protected fun setDarkTheme(colorResource: Int = 0) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            StatusBarUtil.setColor(
-//                this,
-//                ResourcesCompat.getColor(
-//                    resources,
-//                    if (colorResource != 0) colorResource else R.color.black,
-//                    null
-//                ),
-//                1
-//            )
-//            StatusBarUtil.setDarkMode(this)
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            StatusBarUtil.setColor(
-//                this,
-//                ResourcesCompat.getColor(
-//                    resources,
-//                    if (colorResource != 0) colorResource else R.color.black,
-//                    null
-//                ),
-//                1
-//            )
-//        }
-//    }
 
     override fun onRefresh() {
         isRefresh = true
@@ -209,33 +184,13 @@ abstract class AbstractBaseActivity<VB : ViewBinding, VM : AbstractModel> :
     }
 
     protected fun initToolbar(
+        titleResourceId: Int = 0,
         titleResouceStr: String = "",
-        isNeedBack: Boolean = true,
-        titleResourceId: Int = 0
+        isNeedBack: Boolean = true
     ) {
-        initToolbar(
-            if (titleResourceId > 0) resources.getString(titleResourceId) else titleResouceStr,
-            isNeedBack
-        )
+            mToolbarTitle.text = if (titleResourceId > 0) resources.getString(titleResourceId) else titleResouceStr
+            if (isNeedBack)mToolbarLeftIcon.setOnClickListener { finish() }
     }
-
-    protected fun getToolbar(): Toolbar {
-        return mToolbar
-    }
-
-    private fun initToolbar(titleResouce: String, isNeedBack: Boolean) {
-        mToolbarTitle.text = titleResouce
-//        mToolbar.title = titleResouce
-//        setSupportActionBar(mToolbar)
-        if (isNeedBack) {
-            mToolbarLeftIcon.setOnClickListener { finish() }
-//            isSwipeEnabled = true
-//            mToolbar.setLeftIcon(R.drawable.back_icon_black)
-//            supportActionBar?.setHomeButtonEnabled(true)
-//            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
-    }
-
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)

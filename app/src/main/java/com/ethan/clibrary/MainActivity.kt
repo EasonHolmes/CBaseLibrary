@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ethan.clibrary.activity.MotionLayoutActivity
 import com.ethan.clibrary.activity.RetrofitFlowActivity
 import com.ethan.clibrary.databinding.ActivityMainBinding
 import com.ethan.clibrary.model.MainModel
@@ -23,7 +24,8 @@ import kotlin.collections.ArrayList
 class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
     private val mData =
         mutableListOf<String>(
-            "retrofit协程"
+            "retrofit协程",
+            "Motionlayout"
         )
 
     override fun setBindinglayout(): ActivityMainBinding {
@@ -44,31 +46,15 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
                 0 -> {
                     intent.setClass(this@MainActivity, RetrofitFlowActivity::class.java)
                 }
+                1->{
+                    intent.setClass(this@MainActivity,MotionLayoutActivity::class.java)
+                }
             }
             startActivity(intent)
         }
         rvScrollViewVisibily(adapter)
 
-//        val filePath: MutableList<String> = mutableListOf()
-//        val list = getAllFiles(filesDir.absolutePath)
-//        val list2 = getAllFiles(cacheDir.absolutePath)
-//        if (list != null && list.size > 0) {
-//            filePath.addAll(list)
-//        }
-//        if (list2 != null && list2.size > 0) {
-//            filePath.addAll(list2)
-//        }
-//        if (filePath.isNotEmpty()) {
-//            val random = Random()
-//            disposable = interval(0, 100, TimeUnit.MILLISECONDS)
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .subscribe {
-//                    Log.e(
-//                        MainActivity::class.java.name,
-//                        "path====" + filePath[random.nextInt(filePath.size - 1)]
-//                    )
-//                }
-//        }
+
     }
 
     override fun onDestroy() {
@@ -76,35 +62,7 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
         super.onDestroy()
     }
 
-    /**
-     * 获取指定目录内所有文件路径
-     * @param dirPath 需要查询的文件目录
-     */
-    private fun getAllFiles(dirPath: String?): MutableList<String>? {
-        val paths: MutableList<String> = arrayListOf()
-        val f = File(dirPath)
-        if (!f.exists()) { //判断路径是否存在
-            return null
-        }
-        val files = f.listFiles()
-            ?: //判断权限
-            return null
-        for (_file in files) { //遍历目录
-            when {
-                _file.isFile -> {
-                    var doc = _file.name
-                    if (doc.length < 10) doc += "32e065ea8c8b666498258000de4bd6b5"
-                    paths.add(doc)
-                }
-                _file.isDirectory -> { //查询子目录
-                    getAllFiles(_file.absolutePath)
-                }
-                else -> {
-                }
-            }
-        }
-        return paths
-    }
+
 
     private fun rvScrollViewVisibily(adapter: MainAdapter) {
 //        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
