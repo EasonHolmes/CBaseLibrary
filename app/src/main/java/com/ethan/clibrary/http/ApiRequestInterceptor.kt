@@ -23,13 +23,10 @@ suspend fun <T> AbstractModel.flowRequest(
     }.flowOn(Dispatchers.IO)
 //        .catch {
 //            apiExceptionEvent.value = it
-//            CCLogUtils.e(NetViewAbstractModelModel::class.java,"catch=====" + Thread.currentThread().name)
+//            CCLogUtils.e(AbstractModel::class.java,"catch=====" + Thread.currentThread().name)
 //        }
-        .onCompletion { cause ->//成功请求cause是null
+        .onCompletion { cause -> //成功请求 cause是null
             CCLogUtils.e(AbstractModel::class.java,"onCompletion=====" + Thread.currentThread().name)
             CCLogUtils.e(AbstractModel::class.java, "onCompletion=====" + cause.toString())
         }
 }
-fun <T> Flow<T>.catchError(bloc: Throwable.() -> Unit) = catch { cause -> bloc(cause) }
-
-suspend fun <T> Flow<T>.next(bloc: suspend T.() -> Unit): Unit = catch { }.collect { bloc(it) }
