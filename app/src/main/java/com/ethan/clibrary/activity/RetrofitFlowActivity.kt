@@ -3,8 +3,11 @@ package com.ethan.clibrary.activity
 import android.os.Bundle
 import androidx.lifecycle.*
 import com.ethan.clibrary.databinding.ActivityRetrofitFlowBinding
+import com.ethan.clibrary.http.catchError
 import com.ethan.clibrary.model.RetrofitFlowActModel
 import com.utils.library.ui.AbstractBaseActivity
+import com.utils.library.utils.CCLogUtils
+import com.utils.library.viewmodel.AbstractModel
 import kotlinx.coroutines.flow.collect
 
 /**
@@ -25,12 +28,24 @@ class RetrofitFlowActivity :
     }
 
     override fun onCreated(savedInstanceState: Bundle?) {
+        //请求
         mViewmodel.retrofitFlow()
+
+        //更新
         lifecycleScope.launchWhenCreated {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
-                mViewmodel.retrofitFlowResponseFlow.collect{
-                   binding.txtResponse.text = it.toString()
-                }
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                CCLogUtils.e(
+                    AbstractModel::class.java,
+                    "repeatOnLifecycle=====" + Thread.currentThread().name
+                )
+                mViewmodel.retrofitFlowResponseFlow
+                    .collect {
+                        CCLogUtils.e(
+                            AbstractModel::class.java,
+                            "retrofitFlowResponseFlow=====" + Thread.currentThread().name
+                        )
+                        binding.txtResponse.text = it.toString()
+                    }
             }
         }
     }
