@@ -13,17 +13,32 @@
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
+        <Constraint
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
+<!--        <Constraint-->
+<!--            motion:layout_constraintStart_toStartOf="@id/imageview"-->
+<!--            motion:layout_constraintEnd_toEndOf="@id/imageview"-->
+<!--            motion:layout_constraintTop_toTopOf="@id/imageview"-->
+<!--            motion:layout_constraintBottom_toBottomOf="@id/imageview"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="0dp"-->
+<!--            android:id="@+id/imageView2" />-->
+
         <Constraint
-            motion:layout_constraintStart_toStartOf="@id/imageview"
-            motion:layout_constraintEnd_toEndOf="@id/imageview"
-            motion:layout_constraintTop_toTopOf="@id/imageview"
-            motion:layout_constraintBottom_toBottomOf="@id/imageview"
+            motion:layout_constraintStart_toEndOf="@id/imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
+            android:visibility="invisible"
             android:id="@+id/imageView2" />
     </ConstraintSet>
 </MotionScene>
