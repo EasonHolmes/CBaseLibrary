@@ -21,10 +21,10 @@ suspend fun <T> AbstractModel.flowRequest(
         it.isSuccess
         it
     }.flowOn(Dispatchers.IO)
-//        .catch {
-//            apiExceptionEvent.value = it
-//            CCLogUtils.e(AbstractModel::class.java,"catch=====" + Thread.currentThread().name)
-//        }
+        .catch {
+            apiExceptionEvent.value = it
+            CCLogUtils.e(AbstractModel::class.java,"catch=====" + Thread.currentThread().name)
+        }
         .onCompletion { cause -> //成功请求 cause是null
             CCLogUtils.e(AbstractModel::class.java,"onCompletion=====" + Thread.currentThread().name)
             CCLogUtils.e(AbstractModel::class.java, "onCompletion=====" + cause.toString())

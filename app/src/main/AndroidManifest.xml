@@ -33,6 +33,7 @@
         </activity>
         <activity android:name=".activity.RetrofitFlowActivity"/>
         <activity android:name=".activity.MotionLayoutActivity"/>
+        <activity android:name=".activity.ComposeUIActivity"/>
     </application>
 
 </manifest>

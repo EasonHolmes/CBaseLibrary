@@ -42,19 +42,6 @@ android {
 //            buildConfigField("String", "GLOBAL_DOMAIN", "\"${url["debug"]}\"")
         }
     }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-
-//    kotlinOptions {
-//        // work-runtime-ktx 2.1.0 and above now requires Java 8
-//        jvmTarget = "1.8"
-//
-//        // Enable Coroutines and Flow APIs
-//        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-//        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
-//    }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -89,5 +76,16 @@ dependencies {
     api 'com.github.EasonHolmes.CBaseLibrary:clibrarys:0.1.2'
 //    api "io.github.cutilslibrary:0.0.2"
 
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    //这个也得加才能预览
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_viewmodel_version"
+    implementation 'androidx.activity:activity-compose:1.5.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_viewmodel_version"
+    // Integration with observables
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
 }

@@ -3,7 +3,6 @@ package com.ethan.clibrary.model
 import androidx.lifecycle.viewModelScope
 import com.ethan.clibrary.entity.response.RetrofitFlowResponse
 import com.ethan.clibrary.http.apiService
-import com.ethan.clibrary.http.catchError
 import com.ethan.clibrary.http.flowRequest
 import com.utils.library.utils.CCLogUtils
 import com.utils.library.viewmodel.AbstractModel
@@ -22,7 +21,7 @@ class RetrofitFlowActModel : AbstractModel() {
         viewModelScope.launch {
             flowRequest {
                 retrofitFLowTest()
-            }.catchError {
+            }.catch {
                 CCLogUtils.e(RetrofitFlowActModel::class.java, "catch====="+Thread.currentThread().name)
 
             }
