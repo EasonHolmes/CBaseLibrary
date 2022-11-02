@@ -87,5 +87,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_viewmodel_version"
     // Integration with observables
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "com.github.ssseasonnn:RxDownload:1.1.4"
+    api 'com.guolindev.permissionx:permissionx:1.6.4'
 
 }

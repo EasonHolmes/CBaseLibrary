@@ -1,34 +1,39 @@
 package com.ethan.clibrary
 
-import android.R
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
-import android.app.Activity
+import android.R.attr.path
+import android.content.Context
 import android.content.Intent
+import android.content.Intent.*
+import android.net.Uri.fromFile
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.N
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
-import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.animation.addListener
+import androidx.core.content.FileProvider.getUriForFile
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.whenCreated
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ethan.clibrary.activity.ComposeUIActivity
 import com.ethan.clibrary.activity.MotionLayoutActivity
 import com.ethan.clibrary.activity.RetrofitFlowActivity
 import com.ethan.clibrary.databinding.ActivityMainBinding
 import com.ethan.clibrary.model.MainModel
-import com.luck.picture.lib.tools.ValueOf.toInt
+import com.permissionx.guolindev.PermissionX
 import com.utils.library.ui.AbstractBaseActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
+import java.io.File
+import kotlin.math.log
 
 
 class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
@@ -68,6 +73,7 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
             startActivity(intent)
         }
         rvScrollViewVisibily(adapter)
+
 //        SubnetDevices.fromLocalAddress().findDevices(object : OnSubnetDeviceFound {
 //            override fun onDeviceFound(device: Device?) {
 //                // Stub: Found subnet device
@@ -87,13 +93,80 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
 //            }
 //        })
 
-        hander = MoveHandler(binding.btn,binding.parentView)
-        hander?.sendEmptyMessage(1)
+//        Log.e("ethan", "44444")
+//        hander = MoveHandler(binding.btn, binding.parentView)
+//        hander?.sendEmptyMessage(1)
+//        val url  = "https://files.norlinked.com/products/apk/原动力计步-1.0.1.1.apk"
+
+        //单下载默认内部存储
+//        val disposable = url.download()
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribeBy(
+//                onNext = { progress ->
+//                    //download progress
+//                    binding.btn.text = "${progress.downloadSizeStr()}/${progress.totalSizeStr()}"
+//                    Log.e("ethan",progress.toString())
+//                },
+//                onComplete = {
+//                    //download complete
+//                    binding.btn.text = "Open"
+////                                installApk(url.file())
+//                },
+//                onError = {
+//                    //download failed
+//                    Log.e("ethan",it.message.toString())
+//                    binding.btn.text = "Retry"
+//                }
+//            )
+
+//        PermissionX.init(this)
+//            .permissions(android.Manifest.permission.READ_EXTERNAL_STORAGE,
+//                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+////            权限需要提示框
+////            .onExplainRequestReason { scope, deniedList ->
+////                scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel")
+////            }
+//            .request { allGranted, grantedList, deniedList ->
+//                if (allGranted) {
+//                    Task(url = url, savePath = "/update").download()
+////                    val disposable = url.download()
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribeBy(
+//                            onNext = { progress ->
+//                                //download progress
+//                                binding.btn.text = "${progress.downloadSizeStr()}/${progress.totalSizeStr()}"
+//                                Log.e("ethan",progress.toString())
+//                            },
+//                            onComplete = {
+//                                //download complete
+//                                binding.btn.text = "Open"
+////                                installApk(url.file())
+//                            },
+//                            onError = {
+//                                //download failed
+//                                Log.e("ethan",it.message.toString())
+//                                binding.btn.text = "Retry"
+//                            }
+//                        )
+//                } else {
+//                }
+//            }
+
     }
 
-
-
-
+    fun Context.installApk(file: File) {
+        val intent = Intent(ACTION_VIEW)
+        val authority = "$packageName.file.provider"
+        val uri = if (SDK_INT >= N) {
+            getUriForFile(this, authority, file)
+        } else {
+            fromFile(file)
+        }
+        intent.setDataAndType(uri, "application/vnd.android.package-archive")
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+        intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION)
+        startActivity(intent)
+    }
     class MoveHandler(private val targetView:View,private val parentView:RelativeLayout) : Handler() {
         // 移动方向和距离
         private var decX = 1
