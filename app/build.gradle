@@ -89,5 +89,7 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "com.github.ssseasonnn:RxDownload:1.1.4"
     api 'com.guolindev.permissionx:permissionx:1.6.4'
+//    implementation 'com.tencent.tav:libpag:4.1.16'
+    implementation 'com.tencent.tav:libpag:latest.release'
 
 }

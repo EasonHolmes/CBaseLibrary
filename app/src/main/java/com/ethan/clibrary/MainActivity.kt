@@ -23,6 +23,7 @@ import androidx.lifecycle.whenCreated
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ethan.clibrary.activity.ComposeUIActivity
 import com.ethan.clibrary.activity.MotionLayoutActivity
+import com.ethan.clibrary.activity.PagActivity
 import com.ethan.clibrary.activity.RetrofitFlowActivity
 import com.ethan.clibrary.databinding.ActivityMainBinding
 import com.ethan.clibrary.model.MainModel
@@ -41,13 +42,15 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
         mutableListOf<String>(
             "retrofit协程",
             "Motionlayout",
-            "ComposeUI"
+            "ComposeUI",
+            "tencentPag"
         )
 
     override fun setBindinglayout(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
     }
-    private var hander: MoveHandler?=null
+
+    private var hander: MoveHandler? = null
 
     override fun onCreated(savedInstanceState: Bundle?) {
         //强制关闭黑夜模式，style里不要使用datNight主题
@@ -69,10 +72,15 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
                 2 -> {
                     intent.setClass(this@MainActivity, ComposeUIActivity::class.java)
                 }
+                3 -> {
+                    intent.setClass(this, PagActivity::class.java)
+                    intent.putExtra("API_TYPE",5)
+                }
             }
             startActivity(intent)
         }
         rvScrollViewVisibily(adapter)
+        binding.fflayout.setTextview(arrayOf("1", "1", "1", "1"))
 
 //        SubnetDevices.fromLocalAddress().findDevices(object : OnSubnetDeviceFound {
 //            override fun onDeviceFound(device: Device?) {
@@ -167,17 +175,19 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
         intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION)
         startActivity(intent)
     }
-    class MoveHandler(private val targetView:View,private val parentView:RelativeLayout) : Handler() {
+
+    class MoveHandler(private val targetView: View, private val parentView: RelativeLayout) :
+        Handler() {
         // 移动方向和距离
         private var decX = 1
         private var decY = 1
 
         // 坐标
-        private var moveX  = 0
+        private var moveX = 0
         private var moveY = 0
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            if (moveX == 0 || moveY == 0 ){
+            if (moveX == 0 || moveY == 0) {
                 moveX = targetView.x.toInt()
                 moveY = targetView.y.toInt()
             }

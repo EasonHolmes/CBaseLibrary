@@ -41,6 +41,7 @@
         <activity android:name=".activity.RetrofitFlowActivity" />
         <activity android:name=".activity.MotionLayoutActivity" />
         <activity android:name=".activity.ComposeUIActivity" />
+        <activity android:name=".activity.PagActivity" />
 
         <provider
             android:name=".http.ApkFileProvider"

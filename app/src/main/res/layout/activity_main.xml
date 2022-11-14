@@ -26,4 +26,10 @@
             android:layout_alignParentEnd="true"
             android:text="alskdjflksdjf" />
     </RelativeLayout>
+
+    <com.ethan.clibrary.widget.TranslationYFrameLayout
+        android:id="@+id/fflayout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
