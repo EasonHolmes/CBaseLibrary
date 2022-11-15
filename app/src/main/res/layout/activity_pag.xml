@@ -8,10 +8,14 @@
         android:id="@+id/background_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.ethan.clibrary.widget.BackgroundView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+        <org.libpag.PAGView
+            android:id="@+id/pagView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+<!--        <com.ethan.clibrary.widget.BackgroundView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            />-->
         <Button
             android:id="@+id/export"
             android:layout_width="wrap_content"

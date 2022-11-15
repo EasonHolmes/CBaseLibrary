@@ -64,7 +64,7 @@ class PagActivity : AppCompatActivity(R.layout.activity_pag) {
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE"
     )
-
+    val pagView :PAGView by lazy { findViewById<PAGView>(R.id.pagView) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pag)
@@ -73,21 +73,14 @@ class PagActivity : AppCompatActivity(R.layout.activity_pag) {
     }
 
     private fun initPAGView() {
-        val backgroundView = findViewById<RelativeLayout>(R.id.background_view)
-        val pagView = PAGView(this)
-        pagView.layoutParams =
-            RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-        backgroundView.addView(pagView)
         val intent = intent ?: return
         var pagFile1: PAGFile? = null
         val index = intent.getIntExtra("API_TYPE", 0)
+        pagView.stop()
         when (index) {
             // Basic usage
             0 -> {
-                pagFile1 = PAGFile.Load(assets, "replacement.pag")
+                pagFile1 = PAGFile.Load(assets, "data_video.pag")
                 pagView.composition = pagFile1
                 exportButton.setVisibility(View.VISIBLE)
             }
@@ -361,5 +354,11 @@ class PagActivity : AppCompatActivity(R.layout.activity_pag) {
         val progress = frameIndex % totalFrames * 1.0f / totalFrames
         pagPlayer!!.setProgress(progress!!.toDouble())
         pagPlayer!!.flush()
+    }
+
+    override fun onDestroy() {
+        pagView.stop()
+        super.onDestroy()
+
     }
 }

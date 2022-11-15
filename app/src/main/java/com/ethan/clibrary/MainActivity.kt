@@ -74,7 +74,7 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
                 }
                 3 -> {
                     intent.setClass(this, PagActivity::class.java)
-                    intent.putExtra("API_TYPE",5)
+                    intent.putExtra("API_TYPE",0)
                 }
             }
             startActivity(intent)
