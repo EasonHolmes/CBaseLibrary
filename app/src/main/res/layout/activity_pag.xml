@@ -10,8 +10,8 @@
         android:layout_height="match_parent">
         <org.libpag.PAGView
             android:id="@+id/pagView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="300dp"
+            android:layout_height="300dp"/>
 <!--        <com.ethan.clibrary.widget.BackgroundView-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->

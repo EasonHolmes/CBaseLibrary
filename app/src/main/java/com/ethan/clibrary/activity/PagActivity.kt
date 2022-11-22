@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import com.ethan.clibrary.R
+import com.ethan.clibrary.widget.SurfaceViewOutlineProvider
 import org.libpag.PAGComposition
 import org.libpag.PAGFile
 import org.libpag.PAGImage
@@ -69,6 +70,8 @@ class PagActivity : AppCompatActivity(R.layout.activity_pag) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pag)
         exportButton.setVisibility(View.INVISIBLE)
+        pagView.outlineProvider = SurfaceViewOutlineProvider(360f)
+        pagView.clipToOutline = true
         initPAGView()
     }
 
@@ -86,7 +89,7 @@ class PagActivity : AppCompatActivity(R.layout.activity_pag) {
             }
             // 替换pag里的文字
             1 -> {
-                pagFile1 = PAGFile.Load(assets, "test2.pag")
+                pagFile1 = PAGFile.Load(assets, "kaihongbao.pag")
                 testEditText(pagFile1, pagView)
                 pagView.composition = pagFile1
             }
@@ -165,8 +168,14 @@ class PagActivity : AppCompatActivity(R.layout.activity_pag) {
     fun testEditText(pagFile: PAGFile?, pagView: PAGView?) {
         if (pagFile == null || pagView == null || pagFile.numTexts() <= 0) return
         val textData = pagFile.getTextData(0)
-        textData.text = "replacement test"
+        val textData1 = pagFile.getTextData(2)
+        val textData2 = pagFile.getTextData(3)
+        textData.text = "关"
+        textData1.text = "99999999999"
+        textData2.text = "标题"
         pagFile.replaceText(0, textData)
+        pagFile.replaceText(2, textData1)
+        pagFile.replaceText(3, textData2)
     }
 
     private fun verifyStoragePermissions(activity: Activity) {

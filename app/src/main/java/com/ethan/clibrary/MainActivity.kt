@@ -21,10 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.whenCreated
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ethan.clibrary.activity.ComposeUIActivity
-import com.ethan.clibrary.activity.MotionLayoutActivity
-import com.ethan.clibrary.activity.PagActivity
-import com.ethan.clibrary.activity.RetrofitFlowActivity
+import com.ethan.clibrary.activity.*
 import com.ethan.clibrary.databinding.ActivityMainBinding
 import com.ethan.clibrary.model.MainModel
 import com.permissionx.guolindev.PermissionX
@@ -43,7 +40,8 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
             "retrofit协程",
             "Motionlayout",
             "ComposeUI",
-            "tencentPag"
+            "tencentPag",
+            "专给产品看的测试demo"
         )
 
     override fun setBindinglayout(): ActivityMainBinding {
@@ -74,7 +72,10 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
                 }
                 3 -> {
                     intent.setClass(this, PagActivity::class.java)
-                    intent.putExtra("API_TYPE",0)
+                    intent.putExtra("API_TYPE",1)
+                }
+                4->{
+                    intent.setClass(this, TestActivity::class.java)
                 }
             }
             startActivity(intent)

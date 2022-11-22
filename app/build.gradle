@@ -91,5 +91,7 @@ dependencies {
     api 'com.guolindev.permissionx:permissionx:1.6.4'
 //    implementation 'com.tencent.tav:libpag:4.1.16'
     implementation 'com.tencent.tav:libpag:latest.release'
+    api "com.airbnb.android:lottie:5.2.0"
+
 
 }
