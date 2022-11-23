@@ -1,6 +1,5 @@
 package com.ethan.clibrary
 
-import android.R.attr.path
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.*
@@ -8,40 +7,29 @@ import android.net.Uri.fromFile
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.N
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.os.Message
-import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.FileProvider.getUriForFile
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.whenCreated
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ethan.clibrary.activity.*
 import com.ethan.clibrary.databinding.ActivityMainBinding
 import com.ethan.clibrary.model.MainModel
-import com.permissionx.guolindev.PermissionX
 import com.utils.library.ui.AbstractBaseActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.delay
 import java.io.File
-import kotlin.math.log
 
 
 class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
     private val mData =
         mutableListOf<String>(
+            "专给产品看的测试demo",
             "retrofit协程",
             "Motionlayout",
             "ComposeUI",
             "tencentPag",
-            "专给产品看的测试demo"
+            "paging3"
         )
 
     override fun setBindinglayout(): ActivityMainBinding {
@@ -62,20 +50,24 @@ class MainActivity : AbstractBaseActivity<ActivityMainBinding, MainModel>() {
             val intent = Intent()
             when (position) {
                 0 -> {
-                    intent.setClass(this@MainActivity, RetrofitFlowActivity::class.java)
+                    intent.setClass(this, TestActivity::class.java)
                 }
                 1 -> {
-                    intent.setClass(this@MainActivity, MotionLayoutActivity::class.java)
+                    intent.setClass(this@MainActivity, RetrofitFlowActivity::class.java)
                 }
                 2 -> {
-                    intent.setClass(this@MainActivity, ComposeUIActivity::class.java)
+                    intent.setClass(this@MainActivity, MotionLayoutActivity::class.java)
                 }
                 3 -> {
-                    intent.setClass(this, PagActivity::class.java)
-                    intent.putExtra("API_TYPE",1)
+                    intent.setClass(this@MainActivity, ComposeUIActivity::class.java)
+
                 }
                 4->{
-                    intent.setClass(this, TestActivity::class.java)
+                    intent.setClass(this, PagViewActivity::class.java)
+                    intent.putExtra("API_TYPE",1)
+                }
+                5->{
+                    intent.setClass(this, Paging3Activity::class.java)
                 }
             }
             startActivity(intent)

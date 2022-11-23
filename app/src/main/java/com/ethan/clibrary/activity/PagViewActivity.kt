@@ -11,14 +11,10 @@ import android.media.MediaMuxer
 import android.os.Bundle
 import android.os.Environment
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.FragmentActivity
 import com.ethan.clibrary.R
 import com.ethan.clibrary.widget.SurfaceViewOutlineProvider
 import org.libpag.PAGComposition
@@ -37,7 +33,7 @@ import java.nio.ByteBuffer
 /**
  * Created by Ethan Cui on 2022/11/11
  */
-class PagActivity : AppCompatActivity(R.layout.activity_pag) {
+class PagViewActivity : AppCompatActivity(R.layout.activity_pag) {
     private val TAG = "APIsDetailActivity"
     private var pagFile: PAGFile? = null
     private val exportButton: Button by lazy { findViewById<View>(R.id.export) as Button }

@@ -2,8 +2,6 @@ package com.ethan.clibrary.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.ethan.clibrary.R
-import com.ethan.clibrary.databinding.ActivityMainBinding
 import com.ethan.clibrary.databinding.ActivityTestBinding
 
 /**

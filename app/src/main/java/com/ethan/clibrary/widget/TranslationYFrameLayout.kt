@@ -45,7 +45,6 @@ class TranslationYFrameLayout : FrameLayout {
             objectAnimatorX.start()
         })
         objectAnimatorX.addListener(onStart = {
-            Log.e("ethan", "x--start")
         }, onEnd = {
             objectAnimatorY2.start()
         })
